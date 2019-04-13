@@ -1,0 +1,107 @@
+import React, {Component} from 'react';
+import { View, Text, BackHandler, StyleSheet, TouchableOpacity } from 'react-native';
+import { withNavigation  } from 'react-navigation';
+import { connect } from 'react-redux';
+import { globalStyles, orange, red, green } from '../utils/globalLayout';
+import { resetQuiz } from '../actions/quiz';
+
+class ScoreScreen extends Component{
+    _didFocusSubscription;
+    _willBlurSubscription;
+
+    constructor(props){
+        super(props);
+        this._didFocusSubscription = props.navigation.addListener('didFocus', payload =>
+            BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
+        )
+    };
+
+    componentDidMount() {
+        this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
+          BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
+        );
+      }
+    
+    onBackButtonPressAndroid = () => {
+        const {returnKey} = this.props.navigation.state.params;
+        if (returnKey) {
+            this.returnToDeckScreen();
+            return true;
+        } else {
+            return false;
+        }
+    };
+    
+    componentWillUnmount() {
+        this._didFocusSubscription && this._didFocusSubscription.remove();
+        this._willBlurSubscription && this._willBlurSubscription.remove();
+        this.props.dispatch(resetQuiz(this.props.deckTitle));
+    }
+
+    handlePress = () => {
+        this.returnToDeckScreen();
+    };
+
+    returnToDeckScreen = () => {
+        const { navigation, dispatch } = this.props;
+        this.props.navigation.goBack(navigation.state.params.returnKey);
+    }
+    
+    render() {
+        const {cards, quiz:{wrongAnswers, correctAnswers}} = this.props;
+        const score = (correctAnswers*100)/cards.length;
+        return (
+            <TouchableOpacity style={{...globalStyles.item, alignItems:'center', marginBottom:10, flex: 1}} onPress={() => this.handlePress()}>
+                <View style={{ justifyContent:'center' }}>
+                    <Text style={styles.scoreLabel}>Score: 
+                        <Text style={(score >= 75)
+                            ?styles.highScore
+                            :(score < 50) ? styles.lowScore : styles.scoreLabel}>{`${score}%`}
+                        </Text>
+                    </Text>
+                    <Text style={styles.actionInfo}>Click to return do deck details</Text>
+                </View>
+            </TouchableOpacity>
+        );
+    };
+};
+
+function mapStateToProps({decks, quiz}, props){
+    const {deckTitle} = props.navigation.state.params;
+    const cards = decks[deckTitle].questions;
+    
+    return{
+        quiz,
+        cards
+    }
+}
+
+export default connect(mapStateToProps)(ScoreScreen);
+
+const styles = StyleSheet.create({
+    scoreLabel: {
+        fontSize: 40,
+        paddingTop: 20,
+        fontFamily: 'serif',
+        alignSelf: 'center'
+    },
+    lowScore: {
+        fontSize: 40,
+        paddingTop: 20,
+        color: red,
+        fontFamily: 'serif',
+        alignSelf: 'center'
+    },
+    highScore: {
+        fontSize: 40,
+        paddingTop: 20,
+        color: green,
+        fontFamily: 'serif',
+        alignSelf: 'center'
+    },
+    actionInfo: {
+        fontSize: 20,
+        color: orange,
+        alignSelf: 'center'
+    }
+});
