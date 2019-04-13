@@ -21,7 +21,6 @@ class DeckDetails extends Component{
 
     handleShowCards = () => {
         const { deckTitle } = this.props;
-        console.log('details', this.props)
         this.props.navigation.navigate(
             'CardList',
             { deckTitle, screenTitle: `${deckTitle}: Card List` }

@@ -8,8 +8,6 @@ import { connect } from 'react-redux';
 class CardContent extends Component{
     render(){
         const { card, quiz: {sideOfCard} } = this.props;
-        console.log('side', sideOfCard)
-        console.log('card', card)
         return (
             <View >
                 {(sideOfCard === QUESTION_SIDE) 

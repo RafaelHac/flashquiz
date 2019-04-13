@@ -14,7 +14,6 @@ class Message extends Component {
 
     render(){
         const { message } = this.props;
-        console.log('type',message['messageType'])
         const messageStyle = (message['messageType'] === SUCCESS) ? styles.success : styles.error;
         if(message['messageType'] === undefined){
             return <View></View>

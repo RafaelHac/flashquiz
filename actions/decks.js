@@ -79,7 +79,6 @@ export const handleAddCard = ( deckTitle, card ) => {
 };
 
 export const handleDeleteCard = ( deckTitle, card ) => {
-    console.log('action', deckTitle)
     return (dispatch) => {
         return API.deleteCard( deckTitle, card )
             .then(() => dispatch(deleteCard(deckTitle, card)));

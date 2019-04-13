@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Platform, TouchableOpacity, FlatList } from 'react-native';
+import { View, Text, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 import Card from './Card';
+import { globalStyles } from '../utils/globalLayout';
 
 class CardList extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -29,7 +30,10 @@ class CardList extends Component {
               renderItem={this.renderItem}
               keyExtractor={this._keyExtractor}
             />
-          : <Text>No cards registered</Text>}
+          : <View style={globalStyles.item}>
+              <Text>No cards registered</Text>
+            </View>
+          }
       </View>
     )
   }

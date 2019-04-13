@@ -9,7 +9,6 @@ import { handleDeleteCard } from '../actions/decks';
 class Card extends Component {
     handleDelete = () => {
         const { dispatch, deckTitle, card } = this.props;
-        console.log('card', deckTitle)
         return dispatch(handleDeleteCard(deckTitle, card));
     }
 

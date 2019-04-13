@@ -36,10 +36,8 @@ export function addCard (deckTitle, {question, answer}){
 }
 
 export function deleteCard (deckTitle, {question, answer}){
-  console.log('apiTitle', deckTitle)
   return getDeckByTitle(deckTitle)
     .then((data) => {
-      console.log('api',data)
       data.questions.filter((card) =>
         question !== card.question
       );
