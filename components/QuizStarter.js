@@ -3,12 +3,12 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { globalStyles, CustomButton, gray, orange } from '../utils/globalLayout';
 import { connect } from 'react-redux';
-import { resetQuiz } from '../actions/quiz';
 
 class QuizStarter extends Component{
     
     hasCards = () => {
-        return this.props.deck.questions.length > 0
+        const { decks, deckTitle} = this.props;
+        return decks[deckTitle].questions.length > 0;
     };
 
     handlePress = () => {
@@ -36,7 +36,8 @@ class QuizStarter extends Component{
     }
     
     render(){
-        const { deck } = this.props;
+        const { decks, deckTitle } = this.props;
+        const deck = decks[deckTitle];
         return (
             <TouchableOpacity style={{...globalStyles.item, flex: 4, alignItems:'center'}} onPress={this.handlePress}>
                 <View >
@@ -60,7 +61,7 @@ class QuizStarter extends Component{
 function mapStateToProps({decks}, props){
     const { deckTitle } = props.navigation.state.params;
     return {
-        deck: decks[deckTitle],
+        decks,
         deckTitle
     }
 }

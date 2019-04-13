@@ -6,11 +6,14 @@ import {
     DELETE_CARD
 } from '../actions/decks';
 import { QUIZ_RESET } from './quiz';
-import { shuffle } from '../utils/helpers'
+import { shuffle, getNoDecksMessage } from '../utils/helpers'
 
 export default function decks (state = {}, action) {
     switch(action.type) {
         case LOAD_DECKS :
+            if(action.decks.length === 0){
+                return getNoDecksMessage();
+            }
             return {
                 ...action.decks
                 };

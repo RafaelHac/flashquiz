@@ -14,6 +14,10 @@ import {
 } from '../actions/quiz';
 
 class Quiz extends Component{
+    static navigationOptions = ({ navigation }) => ({
+        title: `${navigation.state.params.deckTitle}: Quiz`,
+        headerTitleStyle :{textAlign: 'center',alignSelf:'center'},
+      });
 
     componentDidMount() {
         this.props.dispatch(resetQuiz(this.props.deckTitle));

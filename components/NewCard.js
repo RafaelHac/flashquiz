@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Platform, TouchableOpacity, Button, TextInput } from 'react-native';
+import { View } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
-import { globalStyles, white } from '../utils/globalLayout';
 import { Formik } from 'formik';
 import { CardForm, validationSchema } from "../components/CardForm";
 import { handleAddCard } from '../actions/decks';
+import { showMessage, ERROR, SUCCESS }from '../actions/message';
 
 class NewCard extends Component {
   state = {
@@ -14,15 +14,23 @@ class NewCard extends Component {
 
   handleSubmit = (values, {setSubmitting}) => {
     const { question, answer } = values;
-    const { deckTitle, dispatch, navigation} = this.props;
+    const { decks, deckTitle, dispatch, navigation} = this.props;
 
     setTimeout(() => {
-        dispatch(handleAddCard(deckTitle, {question, answer})).
-        then(() => {
-          navigation.goBack();
-          setSubmitting(false);
-        });
-      });
+      const sameQuestion = decks[deckTitle].questions.filter((card) => card.question === question);
+      if(sameQuestion.length == 0){
+        dispatch(handleAddCard(deckTitle, {question, answer}))
+          .then(() => {
+            navigation.goBack();
+            dispatch(showMessage('Card saved successfully!', SUCCESS))
+            setSubmitting(false);
+          });
+      } else {
+        navigation.goBack();
+        dispatch(showMessage('Card already registered!', ERROR))
+        setSubmitting(false);
+      }
+    });
   };
 
   render() {

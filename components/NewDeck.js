@@ -5,6 +5,7 @@ import { globalStyles, white } from '../utils/globalLayout';
 import { Formik } from 'formik';
 import { DeckForm, validationSchema } from "../components/DeckForm";
 import { handleAddDeck } from '../actions/decks';
+import { showMessage, SUCCESS, ERROR } from '../actions/message';
 
 class NewDeck extends Component {
   state = {
@@ -24,14 +25,15 @@ class NewDeck extends Component {
           this.props.navigation.navigate(
             'DeckList'
           )
+          dispatch(showMessage("New deck saved successfully!", SUCCESS));
         });
       } else{
-        console.log('Já Existe');
         setSubmitting(false);
         resetForm();
         this.props.navigation.navigate(
           'DeckList'
         )
+        dispatch(showMessage("Deck already Exists!", ERROR));
       }
     });
   };

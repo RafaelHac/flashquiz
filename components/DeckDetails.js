@@ -3,6 +3,7 @@ import { View, Text } from 'react-native';
 import { globalStyles, CustomButton } from '../utils/globalLayout';
 import { connect } from 'react-redux';
 import QuizStarter from './QuizStarter';
+import Message from './Message';
 
 class DeckDetails extends Component{
     static navigationOptions = ({ navigation }) => ({
@@ -30,6 +31,7 @@ class DeckDetails extends Component{
     render(){
         return (
             <View style={{flexDirection:'column', flex:1, marginBottom:17}}>
+                <Message/>
                 <QuizStarter/>
                 <View style={{...globalStyles.item, flex: 1, alignItems:'center'}}>
                     <View style={{ margin: 5 }}>
@@ -46,7 +48,7 @@ class DeckDetails extends Component{
 function mapStateToProps ({ decks }, props){
     const { deckTitle } = props.navigation.state.params;
     return {
-        deck: decks[deckTitle],
+        decks,
         deckTitle
     };
 };

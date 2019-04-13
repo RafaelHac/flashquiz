@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Platform, TouchableOpacity, FlatList } from 'react-native';
 import { connect } from 'react-redux';
-
 import { white } from '../utils/globalLayout';
+import { AppLoading } from 'expo';
 import Deck from './Deck';
+import Message from './Message';
 import { handleLoadDecks } from '../actions/decks';
-
-
+import { getNoDecksMessage } from '../utils/helpers';
 
 class DeckList extends Component {
+  
   state = {
     ready: false,
   }
@@ -25,15 +26,21 @@ class DeckList extends Component {
 
   render() {
     const { decks } = this.props;
+    console.log('decks', decks)
+    console.log('length', Object.keys(decks).length)
+    if(Object.keys(decks).length === 0){
+      return <AppLoading/>;
+    }
     return (
-      <View>
-        {Object.keys(decks).length
+      <View style={{marginBottom:10}}>
+        <Message/>
+        {decks !== getNoDecksMessage()
           ? <FlatList
             data={Object.values(decks)}
             renderItem={this.renderItem}
             keyExtractor={this._keyExtractor}
           />
-        : <Text>No decks registered</Text>}
+        : <Text>{getNoDecksMessage()}</Text>}
       </View>
     )
   }

@@ -5,7 +5,7 @@ import Card from './Card';
 
 class CardList extends Component {
   static navigationOptions = ({ navigation }) => ({
-    title: navigation.state.params.screenTitle,
+    title: `${navigation.state.params.deckTitle}: Card List`,
     headerTitleStyle :{textAlign: 'center',alignSelf:'center'},
   });
   

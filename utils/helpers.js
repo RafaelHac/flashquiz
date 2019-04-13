@@ -12,3 +12,7 @@ export function shuffle(array) {
     }
     return array;
   };
+
+  export function getNoDecksMessage(){
+    return 'There are no saved decks!'
+  }

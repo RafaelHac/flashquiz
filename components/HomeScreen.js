@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, StatusBar, Platform } from 'react-native';
-import { orange, amber, white } from '../utils/globalLayout';
+import { View, StatusBar } from 'react-native';
+import { orange } from '../utils/globalLayout';
 import { Constants } from 'expo'
 import MainNavigator from './MainNavigator';
 import { handleLoadDecks } from '../actions/decks';
