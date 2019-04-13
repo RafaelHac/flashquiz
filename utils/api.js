@@ -1,6 +1,6 @@
 import { AsyncStorage } from 'react-native'
 
-const FLASHCARD_STORAGE_KEY = 'Flashcard:storage';
+const FLASHCARD_STORAGE_KEY = 'FLASHQUIZ:storage';
 
 export function getDeckByTitle( title ){
   return AsyncStorage.getItem(FLASHCARD_STORAGE_KEY).then((results) => JSON.parse(results)[title]);

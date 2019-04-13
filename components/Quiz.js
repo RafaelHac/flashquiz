@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { View, Text, BackHandler, TouchableOpacity } from 'react-native';
 import { shuffle, QUESTION_SIDE, ANSWER_SIDE } from '../utils/helpers';
+import { setLocalNotification, clearLocalNotification } from '../utils/notifications';
 import { globalStyles, CustomButton, red, green } from '../utils/globalLayout';
 import { connect } from 'react-redux';
 import CardContent from './CardContent';
@@ -20,6 +21,8 @@ class Quiz extends Component{
 
     handleEndQuiz = () => {
         const { deckTitle, navigation } = this.props;
+        clearLocalNotification()
+            .then(setLocalNotification)
         navigation.navigate(
             'ScoreScreen',
             { deckTitle, returnKey: navigation.state.key }
