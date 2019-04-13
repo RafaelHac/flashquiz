@@ -4,7 +4,7 @@ import { object, string, required } from 'yup';
 import { globalStyles, gray, amber } from '../utils/globalLayout';
 
 export const validationSchema = object({
-  title: string("Enter Title of Post")
+  title: string("Enter Title of Post").trim()
       .required("Title is required")
 });
 

@@ -10,7 +10,7 @@ class Deck extends Component {
     handleDetails = () => {
         this.props.navigation.navigate(
             'DeckDetails',
-            { deckTitle: this.props.title, screenTitle: this.props.title }
+            { deckTitle: this.props.title }
         )
     }
 

@@ -23,7 +23,8 @@ class NewDeck extends Component {
           setSubmitting(false);
           resetForm();
           this.props.navigation.navigate(
-            'DeckList'
+            'DeckDetails',
+            { deckTitle: title }
           )
           dispatch(showMessage("New deck saved successfully!", SUCCESS));
         });

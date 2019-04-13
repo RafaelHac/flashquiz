@@ -4,8 +4,8 @@ import { object, string, required } from 'yup';
 import { globalStyles, gray, amber } from '../utils/globalLayout';
 
 export const validationSchema = object({
-  question: string("Enter Question of card")
-      .required("Question is required"),
+  question: string("Enter Question of card").trim()
+      .required("Question is required").trim(),
   answer: string("Enter Answer of card")
       .required("Answer is required")
 });
