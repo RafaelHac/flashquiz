@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Platform, TouchableOpacity, FlatList } from 'react-native';
 import { connect } from 'react-redux';
-
-import { white } from '../utils/globalLayout';
+import { white, globalStyles } from '../utils/globalLayout';
 import Deck from './Deck';
+import Message from './Message';
 import { handleLoadDecks } from '../actions/decks';
-
-
+import { getNoDecksMessage } from '../utils/helpers';
 
 class DeckList extends Component {
   state = {
@@ -26,14 +25,18 @@ class DeckList extends Component {
   render() {
     const { decks } = this.props;
     return (
-      <View>
+      <View style={{marginBottom:10}}>
+        <Message/>
         {Object.keys(decks).length
           ? <FlatList
             data={Object.values(decks)}
             renderItem={this.renderItem}
             keyExtractor={this._keyExtractor}
           />
-        : <Text>No decks registered</Text>}
+        : <View style={globalStyles.item}>
+            <Text>{getNoDecksMessage()}</Text>
+          </View>
+        }
       </View>
     )
   }
