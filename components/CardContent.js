@@ -40,11 +40,13 @@ const styles = StyleSheet.create({
         fontSize: 40,
         paddingTop: 20,
         fontFamily: 'serif',
-        alignSelf: 'center'
+        alignSelf: 'center',
+        textAlign: 'center'
     },
     actionInfo: {
         fontSize: 20,
         color: orange,
-        alignSelf: 'center'
+        alignSelf: 'center',
+        textAlign: 'center'
     }
 });

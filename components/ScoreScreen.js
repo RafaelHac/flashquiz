@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { View, Text, BackHandler, StyleSheet, TouchableOpacity } from 'react-native';
 import { withNavigation  } from 'react-navigation';
 import { connect } from 'react-redux';
-import { globalStyles, orange, red, green } from '../utils/globalLayout';
+import { globalStyles, CustomButton, orange, red, green } from '../utils/globalLayout';
 import { resetQuiz } from '../actions/quiz';
 
 class ScoreScreen extends Component{
@@ -43,25 +43,36 @@ class ScoreScreen extends Component{
     };
 
     returnToDeckScreen = () => {
-        const { navigation, dispatch } = this.props;
-        this.props.navigation.goBack(navigation.state.params.returnKey);
+        const { navigation } = this.props;
+        navigation.goBack(navigation.state.params.returnKey);
+    }
+
+    handleNewQuiz = () => {
+        const { navigation, deckTitle } = this.props;
+        
+        navigation.goBack(navigation.state.params.returnKey);
+        navigation.navigate('Quiz', {deckTitle});
+       
     }
     
     render() {
-        const {cards, quiz:{wrongAnswers, correctAnswers}} = this.props;
+        const {cards, quiz:{correctAnswers}} = this.props;
         const score = (correctAnswers*100)/cards.length;
         return (
-            <TouchableOpacity style={{...globalStyles.item, alignItems:'center', marginBottom:10, flex: 1}} onPress={() => this.handlePress()}>
-                <View style={{ justifyContent:'center' }}>
+            <View style={{...globalStyles.item, alignItems:'center', marginBottom:10, flex: 1}}>
+                <View style={{ flex:4 , justifyContent:'center' }}>
                     <Text style={styles.scoreLabel}>Score: 
                         <Text style={(score >= 75)
                             ?styles.highScore
                             :(score < 50) ? styles.lowScore : styles.scoreLabel}>{`${score}%`}
                         </Text>
                     </Text>
-                    <Text style={styles.actionInfo}>Click to return do deck details</Text>
                 </View>
-            </TouchableOpacity>
+                <View style={{ flex:1, flexDirection:'column' }}>
+                    <CustomButton styles={{ backgroundColor:red }} label='Return to Deck' onPress={this.returnToDeckScreen}/>
+                    <CustomButton styles={{ backgroundColor:green }} label='New Quiz' onPress={this.handleNewQuiz}/>
+                </View>
+            </View>
         );
     };
 };
@@ -72,6 +83,7 @@ function mapStateToProps({decks, quiz}, props){
     
     return{
         quiz,
+        deckTitle,
         cards
     }
 }

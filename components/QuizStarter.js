@@ -31,7 +31,7 @@ class QuizStarter extends Component{
         const { deckTitle } = this.props;
         this.props.navigation.navigate(
             'Quiz',
-            { deckTitle, screenTitle: `${deckTitle}: Quiz` }
+            { deckTitle }
         );
     }
     

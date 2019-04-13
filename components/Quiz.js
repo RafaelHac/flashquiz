@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import { View, Text, BackHandler, TouchableOpacity } from 'react-native';
-import { shuffle, QUESTION_SIDE, ANSWER_SIDE } from '../utils/helpers';
 import { setLocalNotification, clearLocalNotification } from '../utils/notifications';
-import { globalStyles, CustomButton, red, green } from '../utils/globalLayout';
+import { globalStyles, CustomButton, red, green, gray } from '../utils/globalLayout';
 import { connect } from 'react-redux';
 import CardContent from './CardContent';
 import { 
@@ -42,26 +41,45 @@ class Quiz extends Component{
     };
 
     handleWrongAnswer = () => {
-        this.props.dispatch(wrongAnswer());
-        this.props.dispatch(nextCard());
+        const { currentCard } = this.props.quiz;
+        const { quizCards, dispatch } = this.props;
+
+        dispatch(wrongAnswer());
+        dispatch(nextCard());
+        if(quizCards[currentCard+1] == undefined){
+            this.handleEndQuiz();
+        } 
     }
 
     handleCorrectAnswer = () => {
-        this.props.dispatch(correctAnswer());
-        this.props.dispatch(nextCard());
+        const { currentCard } = this.props.quiz;
+        const { quizCards, dispatch } = this.props;
+
+        dispatch(correctAnswer());
+        dispatch(nextCard());
+        if(quizCards[currentCard+1] == undefined){
+            this.handleEndQuiz();
+        } 
     }
     
     render(){
-        const { currentCard, sideOfCard } = this.props.quiz;
+        const { currentCard } = this.props.quiz;
         const { quizCards } = this.props;
-        
+        console.log('currentCard', quizCards[currentCard]);
         return (
             <View style={{...globalStyles.item, alignItems:'center', marginBottom:10, flex: 1}}>
-                {quizCards[currentCard] 
-                ? <TouchableOpacity style={{ flex:6, justifyContent:'center' }} onPress={() => this.handleFlipCard()}>
+                <View>
+                    <Text style= {{ color: gray }}>
+                        {`Question: ${(currentCard+1)} of ${quizCards.length}`}
+                    </Text>
+                </View>
+                
+                {quizCards[currentCard] && 
+                    <TouchableOpacity style={{ flex:6, justifyContent:'center' }} onPress={() => this.handleFlipCard()}>
                         <CardContent card={quizCards[currentCard]}/>
                     </TouchableOpacity>
-                : this.handleEndQuiz()}
+                }
+                
                 <View style={{ flex:1, flexDirection:'row' }}>
                     <CustomButton styles={{ backgroundColor:red }} label='Wrong' onPress={this.handleWrongAnswer}/>
                     <CustomButton styles={{ backgroundColor:green }} label='Correct' onPress={this.handleCorrectAnswer}/>
