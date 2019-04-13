@@ -11,9 +11,6 @@ import { shuffle, getNoDecksMessage } from '../utils/helpers'
 export default function decks (state = {}, action) {
     switch(action.type) {
         case LOAD_DECKS :
-            if(action.decks.length === 0){
-                return getNoDecksMessage();
-            }
             return {
                 ...action.decks
                 };
